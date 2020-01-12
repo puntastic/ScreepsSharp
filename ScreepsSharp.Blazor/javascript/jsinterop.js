@@ -152,7 +152,7 @@ DotNet.jsCallDispatcher = {
     invokeJSFromDotNet: function (identifier, argsJson)
     {
         //console.log('invokeJSFromDotNet:' + identifier);
-        var found = indJSFunction(identifier);
+        var found = findJSFunction(identifier);
 
         if (found === null) { return false; }
         if (found === undefined) { return false; }
