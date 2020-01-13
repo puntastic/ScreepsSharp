@@ -12,16 +12,16 @@ var pendingAsyncCalls = {};
 var cachedJSFunctions = {};
 var nextAsyncCallId = 1; // Start at 1 because zero signals "no response needed"
 var dotNetDispatcher = null;
+
+function invokeFunctionById(id, argsJson)
+
 /**
  * Sets the specified .NET call dispatcher as the current instance so that it will be used
  * for future invocations.
  *
  * @param dispatcher An object that can dispatch calls from JavaScript to a .NET runtime.
  */
-function attachDispatcher(dispatcher)
-{
-    dotNetDispatcher = dispatcher;
-}
+function attachDispatcher(dispatcher){ dotNetDispatcher = dispatcher; }
 DotNet.attachDispatcher = attachDispatcher;
 /**
  * Adds a JSON reviver callback that will be used when parsing arguments received from .NET.
@@ -151,20 +151,13 @@ DotNet.jsCallDispatcher = {
      */
     invokeJSFromDotNet: function (identifier, argsJson)
     {
-        //console.log('invokeJSFromDotNet:' + identifier);
-        var found = findJSFunction(identifier);
+        let target = findJSFunction(identifier);
+        if (target == null) { return false; }
 
-        if (found === null) { return false; }
-        if (found === undefined) { return false; }
-
-        if (!(result instanceof Function)) { return JSON.stringify(result, argReplacer); }
-
-        var result = findJSFunction(identifier).apply(null, parseJsonWithRevivers(argsJson));
-
-        if (result === null) { return null; }
-        if (result === undefined) { return null; }
-
-        return JSON.stringify(result, argReplacer);
+        let result = target;
+        if (target instanceof Function) { result = target.apply(null, parseJsonWithRevivers(argsJson)); }
+		
+        return result == undefined ? null : JSON.stringify(result, argReplacer);
     },
     /**
      * Invokes the specified synchronous or asynchronous JavaScript function.
