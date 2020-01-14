@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScreepSharp.Core
+namespace ScreepSharp.Core.RoomObjects
 {
     public interface IRoomObject
     {
@@ -12,5 +12,6 @@ namespace ScreepSharp.Core
         IRoom room { get; }
         RoomPosition pos { get; }
         IEffect effects { get; }
+        bool my { get; }
     }
 }

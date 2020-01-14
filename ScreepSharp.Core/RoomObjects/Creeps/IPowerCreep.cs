@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScreepSharp.Core
+namespace ScreepSharp.Core.RoomObjects
 {
     public interface IPowerCreep : ICreepBase
     {

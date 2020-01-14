@@ -16,8 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScreepSharp.Core\ScreepSharp.Core.csproj" />
-    <ProjectReference Include="..\ScreepsSharp.Blazor\ScreepsSharp.Blazor.csproj" />
+    <ProjectReference Include="..\..\ScreepSharp.Core\ScreepSharp.Core.csproj" />
+    <ProjectReference Include="..\..\ScreepsSharp.Blazor\ScreepsSharp.Blazor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="javascript\main.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreepSharp.Core", "ScreepSharp.Core\ScreepSharp.Core.csproj", "{245EA15E-5595-4886-89D4-E9ED3A03FFDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreepSharp.Core", "ScreepSharp.Core\ScreepSharp.Core.csproj", "{245EA15E-5595-4886-89D4-E9ED3A03FFDE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreepsSharp.Blazor", "ScreepsSharp.Blazor\ScreepsSharp.Blazor.csproj", "{FB1D56A2-616E-4B64-89B0-F3C5BD7B8702}"
 EndProject
@@ -12,7 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreepsSharp.Example", "ScreepsSharp.Example\ScreepsSharp.Example.csproj", "{054A2A3D-6D24-418A-AFBF-62F665D990A0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorial", "Tutorial", "{60AF5C62-9D48-476A-BAAC-13D01F252E22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreepsSharp.Tutorial.Section5", "Tutorial\Section5\ScreepsSharp.Tutorial.Section5.csproj", "{B5EA9717-41E4-4A48-A7E4-051F27DCBE33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,13 +30,16 @@ Global
 		{FB1D56A2-616E-4B64-89B0-F3C5BD7B8702}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB1D56A2-616E-4B64-89B0-F3C5BD7B8702}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB1D56A2-616E-4B64-89B0-F3C5BD7B8702}.Release|Any CPU.Build.0 = Release|Any CPU
-		{054A2A3D-6D24-418A-AFBF-62F665D990A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{054A2A3D-6D24-418A-AFBF-62F665D990A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{054A2A3D-6D24-418A-AFBF-62F665D990A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{054A2A3D-6D24-418A-AFBF-62F665D990A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5EA9717-41E4-4A48-A7E4-051F27DCBE33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5EA9717-41E4-4A48-A7E4-051F27DCBE33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5EA9717-41E4-4A48-A7E4-051F27DCBE33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5EA9717-41E4-4A48-A7E4-051F27DCBE33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5EA9717-41E4-4A48-A7E4-051F27DCBE33} = {60AF5C62-9D48-476A-BAAC-13D01F252E22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {206D9B9D-1B42-4678-9A3E-A3B1DCE1AC32}

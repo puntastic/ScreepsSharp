@@ -22,6 +22,9 @@ namespace ScreepsSharp.Example
             var js = Game.js;
 
             Log("Main Called, it wants its javascript back.");
+
+
+
             //// js.InvokeVoid("console.log", "MainCalled");
             //var spawnNames = js.Invoke<string[]>("bindings.spawnNames");
 

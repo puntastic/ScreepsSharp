@@ -11,9 +11,9 @@ namespace ScreepSharp.Core
 {
     public class RoomPosition
     {
-        int x { get; }
-        int y { get; }
-        string roomName { get; }
+        public int x { get; }
+        public int y { get; }
+        public string roomName { get; }
 
         [JsonConstructor]
         public RoomPosition(int x, int y, string roomName)
