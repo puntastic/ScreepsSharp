@@ -1,6 +1,5 @@
 ﻿using Mono.WebAssembly.Interop;
-using Newtonsoft.Json;
-using ScreepSharp.Core;
+using ScreepsSharp.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,13 +27,13 @@ namespace ScreepsSharp.Blazor
         }
 
         public void InvokeVoid(string identifier, params object[] args) { _ = Invoke<object>(identifier, args);  }
-        public T JsonConvertInvoke<T>(string identifier, params object[] args)
-        {
-            string result = Invoke<string>(identifier, args);
-            if(result == null) { return default; }
+        //public T JsonConvertInvoke<T>(string identifier, params object[] args)
+        //{
+        //    string result = Invoke<string>(identifier, args);
+        //    if(result == null) { return default; }
 
-            return JsonConvert.DeserializeObject<T>(result);
-        }
+        //    return JsonConvert.DeserializeObject<T>(result);
+        //}
         
         protected ScreepsJSRuntime() { }
 

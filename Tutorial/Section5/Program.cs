@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
 using Microsoft.JSInterop;
-using ScreepSharp.Core;
-using ScreepSharp.Core.RoomObjects;
+using ScreepsSharp.Core;
+using ScreepsSharp.Core.RoomObjects;
 using ScreepsSharp.Blazor;
+using System;
 using System.Linq;
 
 
@@ -18,36 +19,38 @@ namespace ScreepsSharp.Tutorial.Section5
 		{
 			if (!(room.controller?.my ?? false)) { return; }
 			Log(room.name);
-		///	var towers = room.Find(Find.myStructures)
-		///		.Where(o => (o as IStructure)?.structureType == StructureType.tower)
-		///		.Cast<ITower>()
-		///		.ToArray();
-		///		
-		///	var damaged = room.Find(Find.myStructures)
-		///		.Where(o => (o as IStructure)?.hits < (o as IStructure).hitsMax)
-		///		.Cast<IStructure>()
-		///		.ToArray();
-		///		
-		///	var hostiles = room.Find(Find.hostileCreeps)
-		///		.Cast<ICreepBase>()
-		///		.ToArray();
-		///		
+			var towers = room.Find(Find.myStructures)
+				.Where(o => (o as IStructure)?.structureType == StructureType.tower)
+				.Cast<ITower>()
+				.ToArray();
+
+
+			var damaged = room.Find(Find.myStructures)
+				.Where(o => (o as IStructure)?.hits < (o as IStructure)?.hitsMax)
+				.Cast<IStructure>()
+				.ToArray();
+
+			var hostiles = room.Find(Find.hostileCreeps)
+				.Cast<ICreepBase>()
+				.ToArray();
+
 			var spawns = room.Find(Find.mySpawns)
 				.Cast<ISpawn>()
 				.ToArray();
 
-			///foreach (var tower in towers)
-			///{
-			///	if (hostiles.Length > 0)
-			///	{
-			///		tower.Attack(hostiles[0]);
-			///		break; //continue; // NCP's need not apply. Only one tower for you!
-			///	}
-			///
-			///	if (damaged.Length > 0) { tower.Repair(damaged[0]); }
-			///
-			///	break; //continue;
-			///}
+			foreach (var tower in towers)
+			{
+				if (hostiles.Length > 0)
+				{
+					tower.Attack(hostiles[0]);
+					break; //continue; // NCP's need not apply. Only one tower for you!
+				}
+
+				if (damaged.Length > 0) { tower.Repair(damaged[0]); }
+
+				break; //continue;
+			}
+
 			ICreep creep;
 			var parts = new[] { Bodypart.move, Bodypart.move, Bodypart.carry, Bodypart.work };
 			if (TryGetCreepOrSpawn(room.name + "harvester", out creep, parts, spawns.FirstOrDefault()))
@@ -83,15 +86,22 @@ namespace ScreepsSharp.Tutorial.Section5
 				_initialized = true;
 			}
 
-			Game.OnTickStart();
 			Log("Main Called");
 
+			try { Game.OnTickStart(); }
+			catch (Exception ex)
+			{
+				Log($"Initialization failed:\n${ex.ToString()}");
+				return;
+			}
 
 			foreach (var room in Game.rooms.Values)
 			{
-				TickRoom(room);
+				try { TickRoom(room); }
+				catch (Exception ex) { Log(ex.ToString()); }
 			}
 
 		}
+
 	}
 }

@@ -1,11 +1,11 @@
-﻿using ScreepSharp.Core.RoomObjects;
+﻿using ScreepsSharp.Core.RoomObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 
-namespace ScreepSharp.Core
+namespace ScreepsSharp.Core
 {
 	// can't say I like singletons but if you can Game.creeps in screeps
 	// I want to damn well be able to here
@@ -25,6 +25,8 @@ namespace ScreepSharp.Core
 		public static T InvokeById<T>(string id, string target, params object[] args) { return Invoke<T>("invokeByObjId", id, target, args); }
 
 		public static IJsInterop js => _instance.js;
+
+
 		private static IGame _instance;
 
 		public static void Init(IGame game)
@@ -34,5 +36,7 @@ namespace ScreepSharp.Core
 		}
 
 		public static void OnTickStart() { _instance.OnTickStart(null); }
+
+		public static void WriteLine(string message) { js.InvokeVoid("console.log", message);  }
 	}
 }

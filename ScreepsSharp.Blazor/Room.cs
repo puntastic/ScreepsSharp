@@ -1,5 +1,5 @@
-﻿using ScreepSharp.Core;
-using ScreepSharp.Core.RoomObjects;
+﻿using ScreepsSharp.Core;
+using ScreepsSharp.Core.RoomObjects;
 using ScreepsSharp.Blazor.RoomObjects;
 using System;
 using System.Collections.Generic;
@@ -42,30 +42,30 @@ namespace ScreepsSharp.Blazor
 			{
 				switch (type)
 				{
-					case ScreepSharp.Core.Find.constructionSites:
+					case ScreepsSharp.Core.Find.constructionSites:
 						output[i] = new ConstructionSite(ids[i]);
 						continue;
 
-					case ScreepSharp.Core.Find.structures:
-					case ScreepSharp.Core.Find.myStructures:
+					case ScreepsSharp.Core.Find.structures:
+					case ScreepsSharp.Core.Find.myStructures:
 						output[i] = FromId(ids[i]);
 						continue;
 
-					case ScreepSharp.Core.Find.mySpawns:
+					case ScreepsSharp.Core.Find.mySpawns:
 						output[i] = new Spawn(ids[i]);
 						continue;
 
-					case ScreepSharp.Core.Find.sources:
+					case ScreepsSharp.Core.Find.sources:
 						output[i] = new Source(ids[i]);
 						continue;
 
-					case ScreepSharp.Core.Find.creeps:
-					case ScreepSharp.Core.Find.myCreeps:
-					case ScreepSharp.Core.Find.hostileCreeps:
+					case ScreepsSharp.Core.Find.creeps:
+					case ScreepsSharp.Core.Find.myCreeps:
+					case ScreepsSharp.Core.Find.hostileCreeps:
 						output[i] = new Creep(ids[i]);
 						continue;
 
-					default: throw new NotImplementedException(type.ToString()) ;
+					default: throw new NotImplementedException(type.ToString());
 
 				}
 
@@ -76,17 +76,19 @@ namespace ScreepsSharp.Blazor
 
 		private IRoomObject FromId(string id)
 		{
-			StructureType structureType = Game.InvokeById<StructureType>(id, "structureType");
-			switch (structureType)
+			if (!Enum.TryParse(Game.InvokeById<string>(id, "structureType"), out StructureType structureType))
 			{
-				case StructureType.controller:
-					return new Controller(id);
-				case StructureType.spawn:
-					return new Spawn(id);
+				structureType = StructureType.unknown;
 			}
 
-			object store = Game.InvokeById<object>(id, "store");
-			if(store == null) { return new StructureWithStore(id); }
+			switch (structureType)
+			{
+				case StructureType.controller: return new Controller(id);
+				case StructureType.spawn: return new Spawn(id);
+				case StructureType.extension: return new StructureWithStore(id);
+				case StructureType.tower: return new Tower(id);
+
+			}
 
 			return new AStructure(id);
 		}

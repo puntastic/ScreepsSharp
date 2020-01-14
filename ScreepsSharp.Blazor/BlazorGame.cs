@@ -1,6 +1,6 @@
 ﻿using Mono.WebAssembly.Interop;
-using ScreepSharp.Core;
-using ScreepSharp.Core.RoomObjects;
+using ScreepsSharp.Core;
+using ScreepsSharp.Core.RoomObjects;
 using ScreepsSharp.Blazor.RoomObjects;
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace ScreepsSharp.Blazor
 
 			foreach (var name in creepNames)
 			{
-				string id = js.Invoke<string>($"Game.creeps.{name}");
+				string id = js.Invoke<string>($"Game.creeps.{name}.id");
 				_creeps.Add(name, new Creep(id));
 			}
 

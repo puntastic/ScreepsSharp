@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScreepSharp.Core
+namespace ScreepsSharp.Core
 {
     public interface IEffect
     {

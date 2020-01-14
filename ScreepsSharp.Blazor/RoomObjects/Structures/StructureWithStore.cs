@@ -1,5 +1,5 @@
-﻿using ScreepSharp.Core;
-using ScreepSharp.Core.RoomObjects;
+﻿using ScreepsSharp.Core;
+using ScreepsSharp.Core.RoomObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,11 @@ namespace ScreepsSharp.Blazor.RoomObjects
 {
 	public class StructureWithStore : AStructure, IHasStore
 	{
-		public StructureWithStore(string id) : base(id) { store = new Store(id); }
+		public StructureWithStore(string id) : base(id) 
+		{
+			store = new Store($"Game.structures.{id}.store");
+		}
+
 		public IStore store { get; }
 	}
 }

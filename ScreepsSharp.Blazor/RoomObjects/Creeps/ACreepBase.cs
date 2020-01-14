@@ -1,5 +1,5 @@
-﻿using ScreepSharp.Core;
-using ScreepSharp.Core.RoomObjects;
+﻿using ScreepsSharp.Core;
+using ScreepsSharp.Core.RoomObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,35 +13,30 @@ namespace ScreepsSharp.Blazor.RoomObjects
 		public string name => Game.InvokeById<string>(id, "name");
 		public int hits => Game.InvokeById<int>(id, "hits");
 		public int hitsMax => Game.InvokeById<int>(id, "hitsMax");
-		public Dictionary<string, object> memory { get; } = new Dictionary<string, object>();
-		public Bodypart[] body => throw new System.NotImplementedException();
+		public Bodypart[] body => throw new NotImplementedException();
+		public IMemory memory { get; }
 
-		public ACreepBase(string id) : base(id) { store = new Store(id); }
-
-
-		public int MoveTo(RoomPosition target, int reusePath, bool serializeMemory, bool noPathFinding)
+		public ACreepBase(string id) : base(id)
 		{
-			return Game.InvokeById<int>(this.id, "moveTo", target);
-		}
-
-		public int Say(string message, bool publiclyVisible = false)
-		{
-			return Game.InvokeById<int>(id, "say", message, publiclyVisible);
-		}
-
-		Result ICreepBase.MoveTo(RoomPosition target, int reusePath, bool serializeMemory, bool noPathFinding)
-		{
-			throw new NotImplementedException();
+			store = new Store($"Game.creeps.{name}.store");
+			memory = new Memory(id);
 		}
 
 		public Result MoveTo(IRoomObject target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false)
 		{
-			throw new NotImplementedException();
+			return (Result)Game.InvokeById<int>(id, "_moveTo", target.id);
+		}
+
+		public Result MoveTo(RoomPosition target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false)
+		{
+			return (Result)Game.InvokeById<int>(this.id, "moveTo", target);
 		}
 
 		Result ICreepBase.Say(string message, bool publiclyVisible)
 		{
-			throw new NotImplementedException();
+			return (Result)Game.InvokeById<int>(id, "say", message, publiclyVisible);
 		}
+
+
 	}
 }

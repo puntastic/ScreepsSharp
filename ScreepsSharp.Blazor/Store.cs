@@ -1,4 +1,4 @@
-﻿using ScreepSharp.Core;
+﻿using ScreepsSharp.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +8,13 @@ namespace ScreepsSharp.Blazor
 {
     public class Store : IStore
     {
-        private readonly string _id;
+        private readonly string _path;
         
         public int this[Resource resource] { get { return GetFreeCapacity(resource); } }
-        public Store(string id) { _id = id; }      
+        public Store(string path) { _path = path; }      
 
-        public int GetCapacity(Resource? resource) { return Game.InvokeById<int>(_id, "getCapacity", resource?.ToString()); }
-        public int GetFreeCapacity(Resource? resource) { return Game.InvokeById<int>(_id, "getFreeCapacity", resource?.ToString()); }
-        public int GetUsedCapacity(Resource? resource) { return Game.InvokeById<int>(_id, "getUsedCapacity", resource?.ToString()); }
+        public int GetCapacity(Resource? resource) { return Game.Invoke<int>($"{_path}.getCapacity", resource?.ToString()); }
+        public int GetFreeCapacity(Resource? resource) { return Game.Invoke<int>($"{_path}.getFreeCapacity", resource?.ToString()); }
+        public int GetUsedCapacity(Resource? resource) { return Game.Invoke<int>($"{_path}.getUsedCapacity", resource?.ToString()); }
     }
 }

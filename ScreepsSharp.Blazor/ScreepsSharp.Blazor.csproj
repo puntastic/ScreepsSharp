@@ -6,6 +6,7 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScreepSharp.Core\ScreepSharp.Core.csproj" />
+    <ProjectReference Include="..\ScreepSharp.Core\ScreepsSharp.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

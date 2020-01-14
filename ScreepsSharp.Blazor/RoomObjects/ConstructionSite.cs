@@ -1,4 +1,4 @@
-﻿using ScreepSharp.Core.RoomObjects;
+﻿using ScreepsSharp.Core.RoomObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

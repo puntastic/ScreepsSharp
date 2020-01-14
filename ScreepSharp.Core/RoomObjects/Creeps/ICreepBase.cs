@@ -1,18 +1,18 @@
-﻿using System;
+﻿using ScreepsSharp.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScreepSharp.Core.RoomObjects
+namespace ScreepsSharp.Core.RoomObjects
 {
-    public interface ICreepBase : IRoomObject, IHasStore
-    {
-        string name { get; }
+	public interface ICreepBase : IRoomObject, IHasStore
+	{
+		string name { get; }
+		IMemory memory { get; }
+		//todo:
 
-        //todo: purpose made memory type
-        Dictionary<string, object> memory { get; }
-
-        Result MoveTo(RoomPosition target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false);
-        Result MoveTo(IRoomObject target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false);
-        Result Say (string message, bool publiclyVisible = false);
-    }
+		Result MoveTo(RoomPosition target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false);
+		Result MoveTo(IRoomObject target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false);
+		Result Say(string message, bool publiclyVisible = false);
+	}
 }

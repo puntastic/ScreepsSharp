@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScreepSharp.Core.RoomObjects
+namespace ScreepsSharp.Core.RoomObjects
 {
 	public interface IController : IStructure
 	{

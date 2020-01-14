@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScreepSharp.Core
+namespace ScreepsSharp.Core
 {
 	// torn on how much should be hardcoded and how much should be dynamically loaded
 	// for now i'll try the below and we how I like how it turns out.

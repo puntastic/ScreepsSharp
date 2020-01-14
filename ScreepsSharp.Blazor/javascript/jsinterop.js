@@ -232,28 +232,24 @@ function findJSFunction(identifier)
 	var result = global;
 	var resultIdentifier = 'window';
 	var lastSegmentValue;
-	identifier.split('.').forEach(function (segment)
+
+	let segments = identifier.split('.');
+	for (let i = 0; i < segments.length; i++)
 	{
 		if (segment in result)
 		{
 			lastSegmentValue = result;
 			result = result[segment];
 			resultIdentifier += '.' + segment;
+			continue;
 		}
-		else
-		{
-			throw new Error("Could not find '" + segment + "' in '" + resultIdentifier + "'.");
-		}
-	});
+
+		if (i + 1 === segments.length) { break; }
+
+		throw new Error("Could not find '" + segment + "' in '" + resultIdentifier + "'.");
+	}
+
 	return result instanceof Function ? result.bind(lastSegmentValue) : result;
-	//if (result instanceof Function) {
-	//    result = result.bind(lastSegmentValue);
-	//    cachedJSFunctions[identifier] = result;
-	//    return result;
-	//}
-	//else {
-	//    throw new Error("The value '" + resultIdentifier + "' is not a function.");
-	//}
 }
 var DotNetObject = /** @class */ (function ()
 {
