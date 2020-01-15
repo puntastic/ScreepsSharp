@@ -224,6 +224,7 @@ function formatError(error)
 }
 function findJSFunction(identifier)
 {
+	if (identifier == "console.log") { return console.log.bind(console); }
 	//console.log("findJSFunction:" + identifier);
 	//if (cachedJSFunctions.hasOwnProperty(identifier)) {
 	//    return cachedJSFunctions[identifier];
@@ -236,9 +237,11 @@ function findJSFunction(identifier)
 	let segments = identifier.split('.');
 	for (let i = 0; i < segments.length; i++)
 	{
+		let segment = segments[i];
+		lastSegmentValue = result;
 		if (segment in result)
 		{
-			lastSegmentValue = result;
+			
 			result = result[segment];
 			resultIdentifier += '.' + segment;
 			continue;

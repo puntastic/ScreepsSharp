@@ -17,8 +17,8 @@ namespace ScreepsSharp.Blazor
 
 		public object this[string index]
 		{
-			get { return Game.InvokeById<object>(_id, "memory"); }
-			set { Game.js.InvokeVoid("setMemoryByObjId", _id, value); }
+			get { return Game.Invoke<object>("getMemoryByObjId", _id, index ); }
+			set { Game.js.InvokeVoid("setMemoryByObjId", _id, index, value); }
 		}
 	}
 }

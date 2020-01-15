@@ -30,9 +30,6 @@
     <None Update="javascript\jszip-sync.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="javascript\main.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="javascript\mono-loader.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

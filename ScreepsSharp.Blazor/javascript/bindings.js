@@ -26,6 +26,12 @@ global.setMemoryByObjId = function (id, key, val)
 	Game.getObjectById(id).memory[key] = val;
 }
 
+global.getMemoryByObjId = function (id, key)
+{
+	return Game.getObjectById(id).memory[key];
+}
+
+
 Room.prototype.findIds = function (findType, opts)
 {
 	return _.map(this.find(findType, opts), val => val.id);
