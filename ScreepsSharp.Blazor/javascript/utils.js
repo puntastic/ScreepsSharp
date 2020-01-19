@@ -7,9 +7,15 @@
 		catch (ex)
 		{
 			message = `Could not load module ${name}: `;
+			if (ex.toString)
+			{
+				message += ex.toString();
+				return null;
+			}
+
 			if (!ex.message)
 			{
-				message += `Unknown Error`;
+				message += `Unknown Error:\n`;
 				return null;
 			}
 

@@ -9,16 +9,16 @@ namespace ScreepsSharp.Blazor.RoomObjects
 {
 	public class Tower : StructureWithStore, ITower
 	{
-		public Tower(string id) : base(id) { }
+		public Tower(string id, IJsInterop js) : base(id, js) { }
 
 		public Result Attack(IRoomObject target)
 		{
-			return (Result)Game.InvokeById<int>(id, "_attack", target.id);
+			return (Result)_js.InvokeById<int>(id, "_attack", target.id);
 		}
 
 		public Result Repair(IRoomObject target)
 		{
-			return (Result)Game.InvokeById<int>(id, "_repair", target.id);
+			return (Result)_js.InvokeById<int>(id, "_repair", target.id);
 		}
 	}
 }

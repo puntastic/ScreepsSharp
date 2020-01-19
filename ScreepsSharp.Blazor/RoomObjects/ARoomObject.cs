@@ -10,15 +10,18 @@ namespace ScreepsSharp.Blazor.RoomObjects
 	public abstract class ARoomObject : IRoomObject
 	{
 		public string id { get; }
-		public bool my => Game.InvokeById<bool>(id, "my");
-		public RoomPosition pos => Game.InvokeById<RoomPosition>(id, "pos");
+		public bool my => _js.InvokeById<bool>(id, "my");
+		public RoomPosition pos => _js.InvokeById<RoomPosition>(id, "pos");
 
-		public IRoom room => Game.rooms[pos.roomName];
+		public IRoom room => Game.instance.rooms[pos.roomName];
 		public IEffect effects => throw new NotImplementedException();
 
-		public ARoomObject(string id)
+		protected IJsInterop _js { get; }
+
+		public ARoomObject(string id, IJsInterop js)
 		{
 			this.id = id ?? throw new ArgumentNullException(nameof(id));
+			_js = js;
 		}
 	}
 }

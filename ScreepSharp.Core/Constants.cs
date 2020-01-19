@@ -4,6 +4,8 @@ using System.Text;
 
 namespace ScreepsSharp.Core
 {
+	public enum LogLevel { Debug = 0, Error = 1, None = 2}
+
 	// torn on how much should be hardcoded and how much should be dynamically loaded
 	// for now i'll try the below and we how I like how it turns out.
 	//

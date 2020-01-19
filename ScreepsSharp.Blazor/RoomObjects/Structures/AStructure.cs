@@ -9,13 +9,13 @@ namespace ScreepsSharp.Blazor.RoomObjects
 {
 	public /*abstract*/ class AStructure : ARoomObject, IStructure
 	{
-		public AStructure(string id) : base(id) { }
+		public AStructure(string id, IJsInterop js) : base(id, js) { }
 
 		public virtual StructureType structureType
 		{
 			get
 			{
-				if (!Enum.TryParse(Game.InvokeById<string>(id, "structureType"), out StructureType structureType))
+				if (!Enum.TryParse(_js.InvokeById<string>(id, "structureType"), out StructureType structureType))
 				{
 					return StructureType.unknown;
 				}
@@ -24,8 +24,8 @@ namespace ScreepsSharp.Blazor.RoomObjects
 			}
 		}
 
-		public int hits => Game.InvokeById<int>(id, "hits");
-		public int hitsMax => Game.InvokeById<int>(id, "hitsMax");
+		public int hits => _js.InvokeById<int>(id, "hits");
+		public int hitsMax => _js.InvokeById<int>(id, "hitsMax");
 
 	}
 }

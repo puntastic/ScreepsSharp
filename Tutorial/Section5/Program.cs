@@ -71,7 +71,7 @@ namespace ScreepsSharp.Tutorial.Section5
 
 		public static bool TryGetCreepOrSpawn(string name, out ICreep creep, Bodypart[] parts, ISpawn spawn)
 		{
-			if (Game.creeps.TryGetValue(name, out creep)) { return true; }
+			if (Game.instance.creeps.TryGetValue(name, out creep)) { return true; }
 
 			Log(spawn?.SpawnCreep(parts, name).ToString() ?? "-42");
 
@@ -82,20 +82,20 @@ namespace ScreepsSharp.Tutorial.Section5
 		{
 			if (!_initialized)
 			{
-				Game.Init(new BlazorGame());
+				Game.Initialize(new BlazorGame());
 				_initialized = true;
 			}
 
 			Log("Main Called");
 
-			try { Game.OnTickStart(); }
+			try { Game.instance.OnTickStart(); }
 			catch (Exception ex)
 			{
 				Log($"Initialization failed:\n${ex.ToString()}");
 				return;
 			}
 
-			foreach (var room in Game.rooms.Values)
+			foreach (var room in Game.instance.rooms.Values)
 			{
 				try { TickRoom(room); }
 				catch (Exception ex) { Log(ex.ToString()); }

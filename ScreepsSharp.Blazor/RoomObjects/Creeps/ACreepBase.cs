@@ -10,31 +10,32 @@ namespace ScreepsSharp.Blazor.RoomObjects
 	public abstract class ACreepBase : ARoomObject, ICreepBase
 	{
 		public IStore store { get; }
-		public string name => Game.InvokeById<string>(id, "name");
-		public int hits => Game.InvokeById<int>(id, "hits");
-		public int hitsMax => Game.InvokeById<int>(id, "hitsMax");
+
+		public string name => _js.InvokeById<string>(id, "name");
+		public int hits => _js.InvokeById<int>(id, "hits");
+		public int hitsMax => _js.InvokeById<int>(id, "hitsMax");
 		public Bodypart[] body => throw new NotImplementedException();
 		public IMemory memory { get; }
 
-		public ACreepBase(string id) : base(id)
+		public ACreepBase(string id, IJsInterop js) : base(id, js)
 		{
-			store = new Store($"Game.creeps.{name}.store");
-			memory = new Memory(id);
+			store = new Store($"Game.creeps.{name}.store", js);
+			memory = new Memory($"Memory.creeps.{name}", js);
 		}
 
 		public Result MoveTo(IRoomObject target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false)
 		{
-			return (Result)Game.InvokeById<int>(id, "_moveTo", target.id);
+			return (Result)_js.InvokeById<int>(id, "_moveTo", target.id);
 		}
 
 		public Result MoveTo(RoomPosition target, int reusePath = 5, bool serializeMemory = true, bool noPathFinding = false)
 		{
-			return (Result)Game.InvokeById<int>(this.id, "moveTo", target);
+			return (Result)_js.InvokeById<int>(this.id, "moveTo", target);
 		}
 
 		Result ICreepBase.Say(string message, bool publiclyVisible)
 		{
-			return (Result)Game.InvokeById<int>(id, "say", message, publiclyVisible);
+			return (Result)_js.InvokeById<int>(id, "say", message, publiclyVisible);
 		}
 
 

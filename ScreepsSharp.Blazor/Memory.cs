@@ -8,17 +8,21 @@ namespace ScreepsSharp.Blazor
 {
 	public class Memory : IMemory
 	{
-		private string _id;
+		private string _path;
+		private IJsInterop _js;
 
-		public Memory(string id)
+		public Memory(string path, IJsInterop js)
 		{
-			_id = id;
+			_path = path;
+			_js = js;
 		}
 
-		public object this[string index]
+		public T GetOrDefault<T>(string key)
 		{
-			get { return Game.Invoke<object>("getMemoryByObjId", _id, index ); }
-			set { Game.js.InvokeVoid("setMemoryByObjId", _id, index, value); }
+			if (!_js.TryGet(_path, key, out T value)) { return default; }
+			return value;
 		}
+
+		public bool TrySet<T>(string key, T value) { return _js.TrySet(_path, key, value); }
 	}
 }

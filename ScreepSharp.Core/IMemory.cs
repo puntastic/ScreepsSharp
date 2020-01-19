@@ -7,6 +7,9 @@ namespace ScreepsSharp.Core
 {
 	public interface IMemory
 	{
-		object this[string index] { get; set; }
+		//object this[string index] { get; set; }
+
+		T GetOrDefault<T>(string key);
+		bool TrySet<T>(string key, T value);
 	}
 }

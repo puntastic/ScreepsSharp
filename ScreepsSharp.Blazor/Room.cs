@@ -17,21 +17,24 @@ namespace ScreepsSharp.Blazor
 		{
 			get
 			{
-				if (_controller == null)
-				{
-					_controller = new Controller(Game.js.Invoke<string>($"{_ref}.controller.id"));
-				}
-
+				if (_controller == null) { _controller = new Controller(_js.Invoke<string>($"{_ref}.controller.id"), _js); }
 				return _controller;
 			}
 		}
 
-		public Room(string name)
-		{
-			this.name = name;
-		}
+		public IMemory memory { get; }
+		private IJsInterop _js { get; }
 
 		private string _ref => $"Game.rooms.{name}";
+
+
+		public Room(string name, IJsInterop js)
+		{
+			this.name = name;
+			_js = js;
+
+			memory = new Memory($"Memory.rooms.{name}", js);
+		}
 
 		public IRoomObject[] Find(Find type)
 		{
@@ -43,7 +46,7 @@ namespace ScreepsSharp.Blazor
 				switch (type)
 				{
 					case ScreepsSharp.Core.Find.constructionSites:
-						output[i] = new ConstructionSite(ids[i]);
+						output[i] = new ConstructionSite(ids[i],_js);
 						continue;
 
 					case ScreepsSharp.Core.Find.structures:
@@ -52,17 +55,17 @@ namespace ScreepsSharp.Blazor
 						continue;
 
 					case ScreepsSharp.Core.Find.mySpawns:
-						output[i] = new Spawn(ids[i]);
+						output[i] = new Spawn(ids[i], _js);
 						continue;
 
 					case ScreepsSharp.Core.Find.sources:
-						output[i] = new Source(ids[i]);
+						output[i] = new Source(ids[i], _js);
 						continue;
 
 					case ScreepsSharp.Core.Find.creeps:
 					case ScreepsSharp.Core.Find.myCreeps:
 					case ScreepsSharp.Core.Find.hostileCreeps:
-						output[i] = new Creep(ids[i]);
+						output[i] = new Creep(ids[i], _js);
 						continue;
 
 					default: throw new NotImplementedException(type.ToString());
@@ -76,21 +79,21 @@ namespace ScreepsSharp.Blazor
 
 		private IRoomObject FromId(string id)
 		{
-			if (!Enum.TryParse(Game.InvokeById<string>(id, "structureType"), out StructureType structureType))
+			if (!Enum.TryParse(Game.js.InvokeById<string>(id, "structureType"), out StructureType structureType))
 			{
 				structureType = StructureType.unknown;
 			}
 
 			switch (structureType)
 			{
-				case StructureType.controller: return new Controller(id);
-				case StructureType.spawn: return new Spawn(id);
-				case StructureType.extension: return new StructureWithStore(id);
-				case StructureType.tower: return new Tower(id);
+				case StructureType.controller: return new Controller(id, _js);
+				case StructureType.spawn: return new Spawn(id, _js);
+				case StructureType.extension: return new StructureWithStore(id, _js);
+				case StructureType.tower: return new Tower(id, _js);
 
 			}
 
-			return new AStructure(id);
+			return new AStructure(id, _js);
 		}
 	}
 }

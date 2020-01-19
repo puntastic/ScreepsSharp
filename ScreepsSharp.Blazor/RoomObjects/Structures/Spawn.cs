@@ -9,9 +9,9 @@ namespace ScreepsSharp.Blazor.RoomObjects
 {
 	public class Spawn: AStructure, ISpawn
 	{
-		public Spawn(string id) : base(id) 
+		public Spawn(string id, IJsInterop js) : base(id, js) 
 		{
-			store = new Store($"Game.structures.{id}.store");
+			store = new Store($"Game.structures.{id}.store", js);
 			//store = new Store(id); 
 		}
 
@@ -19,7 +19,7 @@ namespace ScreepsSharp.Blazor.RoomObjects
 
 		public Result SpawnCreep(Bodypart[] body, string name)
 		{
-			return (Result)Game.InvokeById<int>(id, "createCreep", body?.Select(o => o.ToString()).ToArray(), name);
+			return (Result)_js.InvokeById<int>(id, "spawnCreep", body?.Select(o => o.ToString()).ToArray(), name);
 		}
 	}
 }

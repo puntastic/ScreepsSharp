@@ -9,10 +9,10 @@ namespace ScreepsSharp.Blazor.RoomObjects
 {
 	public class Source : ARoomObject, ISource
 	{
-		public Source(string id) : base(id) { }
+		public Source(string id, IJsInterop js) : base(id, js) { }
 
-		public int energy => Game.InvokeById<int>(id, "energy");
-		public int energyCapacity => Game.InvokeById<int>(id, "energyCapacity");
-		public int ticksToRegeneration => Game.InvokeById<int>(id, "ticksToRegeneration");
+		public int energy => _js.InvokeById<int>(id, "energy");
+		public int energyCapacity => _js.InvokeById<int>(id, "energyCapacity");
+		public int ticksToRegeneration => _js.InvokeById<int>(id, "ticksToRegeneration");
 	}
 }

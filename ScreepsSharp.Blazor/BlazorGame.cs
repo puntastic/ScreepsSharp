@@ -12,66 +12,99 @@ namespace ScreepsSharp.Blazor
 {
 	public class BlazorGame : IGame
 	{
-		public IJsInterop js => ScreepsJSRuntime.Current;
-
-		private int _lastUpdate;
+		public IJsInterop js { get; }
 
 		private Dictionary<string, ICreep> _creeps = new Dictionary<string, ICreep>();
-		public ReadOnlyDictionary<string, ICreep> creeps { get; }
+		public IReadOnlyDictionary<string, ICreep> creeps { get { return _creeps; } }
 
 		private Dictionary<string, IRoom> _rooms = new Dictionary<string, IRoom>();
-		public ReadOnlyDictionary<string, IRoom> rooms { get; }
+		public IReadOnlyDictionary<string, IRoom> rooms { get { return _rooms; } }
 
-		public int time => js.Invoke<int>("Game.time");
+		public int time { get; private set; } = 0;
+		public ICpu cpu { get; }
 
 		public event EventHandler tickStarted;
-		public void OnTickStart(EventArgs e) { Update(); }
+		private int _lastUpdate = 0;
 
 		public BlazorGame()
 		{
-			rooms = new ReadOnlyDictionary<string, IRoom>(_rooms);
-			creeps = new ReadOnlyDictionary<string, ICreep>(_creeps);
+			js = BlazorJSRuntime.Current;
+			cpu = new Cpu(js);
 		}
 
 		private void Update()
 		{
+			time = js.Invoke<int>("Game.time");
 			if (_lastUpdate == time) { return; }
-			var creepNames = js.Invoke<string[]>("bindings.creepNames");
-			var roomNames = js.Invoke<string[]>("bindings.roomNames");
+			_lastUpdate = time;
 
-			//todo: persistence
-			_creeps.Clear();
-			_rooms.Clear();
-
-			foreach (var name in creepNames)
+			//XXXX: make sure you update rooms first so creeps can reference them
+			_rooms = GetUpdated("Game.rooms", _rooms, (n, j) => new Room(n, j));
+			_creeps = GetUpdated("Game.creeps", _creeps, (n, j) =>
 			{
-				string id = js.Invoke<string>($"Game.creeps.{name}.id");
-				_creeps.Add(name, new Creep(id));
+				string id = js.Invoke<string>($"Game.creeps.{n}.id");
+				return new Creep(id, j);
+			});
+		}
+
+		// todo: profile I expect using passing in a function to be brutally slow. Regardless this is only called at
+		// the beggining of the tick
+		Dictionary<string, T> GetUpdated<T>(string path, Dictionary<string, T> collection, Func<string, IJsInterop, T> create)
+		{
+			var names = js.GetKeys(path);
+			var updated = new Dictionary<string, T>();
+
+			for (int i = 0; i < names.Length; i++)
+			{
+				T current = collection.ContainsKey(names[i]) ? collection[names[i]] : create(names[i], js);
+				updated.Add(names[i], current);
 			}
 
-			foreach (var name in roomNames) { _rooms.Add(name, new Room(name)); }
+			return updated;
 		}
 
-		public T Invoke<T>(string target, params object[] args)
+		public void WriteLine(string line) { js.WriteLine(line); }
+
+		public void OnTickStart()
 		{
-			//T result = 
-			if(typeof(T).IsEnum)
+			Update();
+			tickStarted?.Invoke(null, null);
+		}
+
+		#region IDisposable Support
+		private bool _isDisposed = false; // To detect redundant calls
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_isDisposed)
 			{
-				string result = js.Invoke<string>(target, args);
-				return (T)Enum.Parse(typeof(T), result);
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects).
+				}
+
+				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: set large fields to null.
+
+				_isDisposed = true;
 			}
-
-			return js.Invoke<T>(target, args);
 		}
 
-		public T InvokeById<T>(string id, string target)
+		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+		// ~BlazorGame()
+		// {
+		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+		//   Dispose(false);
+		// }
+
+		// This code added to correctly implement the disposable pattern.
+		public void Dispose()
 		{
-			throw new NotImplementedException();
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			// GC.SuppressFinalize(this);
 		}
-
-		public T InvokeById<T>(string id, string target, params object[] args)
-		{
-			throw new NotImplementedException();
-		}
+		#endregion
 	}
 }

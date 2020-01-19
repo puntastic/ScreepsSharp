@@ -6,19 +6,19 @@ using System.Text;
 
 namespace ScreepsSharp.Core
 {
-    public interface IGame
+    public interface IGame : IDisposable
     {
-        void OnTickStart(EventArgs e);
+        IJsInterop js { get; }
         event EventHandler tickStarted;
 
-        T Invoke<T>(string target, params object[] args);
-        T InvokeById<T>(string id, string target);// { return default; }
-        T InvokeById<T>(string id, string target, params object[] args);// { return default; }
-
-        IJsInterop js { get; }
         int time { get; }
 
-        ReadOnlyDictionary<string, ICreep> creeps { get; }
-        ReadOnlyDictionary<string, IRoom> rooms { get; }
+        IReadOnlyDictionary<string, ICreep> creeps { get; }
+        IReadOnlyDictionary<string, IRoom> rooms { get; }
+
+        ICpu cpu { get; }
+
+        void OnTickStart();
+        void WriteLine(string line);
     }
 }

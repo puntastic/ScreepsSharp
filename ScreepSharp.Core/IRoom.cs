@@ -8,7 +8,11 @@ namespace ScreepsSharp.Core
     public interface IRoom
     {
         string name { get; }
+        
         IController controller { get; }
+
+        IMemory memory { get; }
+
         IRoomObject[] Find(Find type);
         
     }

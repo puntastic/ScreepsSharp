@@ -11,32 +11,15 @@ namespace ScreepsSharp.Core
 	// I want to damn well be able to here
 	public static class Game
 	{
-		public static int time => _instance.time;
-		public static ReadOnlyDictionary<string, ICreep> creeps => _instance.creeps;
-		public static ReadOnlyDictionary<string, IRoom> rooms => _instance.rooms;
-		public static event EventHandler tickStarted
+		// setting the instance to a null object by default for testing or whathaveyou
+		public static IGame instance { get; private set; } = new NullGame();
+		public static IJsInterop js { get { return instance.js; } }
+		public static bool isReady { get; private set; } = false;
+
+		public static void Initialize(IGame game) 
 		{
-			add { _instance.tickStarted += value; }
-			remove { _instance.tickStarted -= value; }
+			instance = game;
+			isReady = true;
 		}
-
-		public static T Invoke<T>(string target, params object[] args) { return js.Invoke<T>(target, args); }
-		public static T InvokeById<T>(string id, string target) { return Invoke<T>("invokeByObjId", id, target, null); }
-		public static T InvokeById<T>(string id, string target, params object[] args) { return Invoke<T>("invokeByObjId", id, target, args); }
-
-		public static IJsInterop js => _instance.js;
-
-
-		private static IGame _instance;
-
-		public static void Init(IGame game)
-		{
-			if (_instance != null) { throw new InvalidOperationException("Game already initialized"); }
-			_instance = game;
-		}
-
-		public static void OnTickStart() { _instance.OnTickStart(null); }
-
-		public static void WriteLine(string message) { js.InvokeVoid("console.log", message);  }
 	}
 }

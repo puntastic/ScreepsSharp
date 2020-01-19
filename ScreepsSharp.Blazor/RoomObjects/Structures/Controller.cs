@@ -1,4 +1,5 @@
-﻿using ScreepsSharp.Core.RoomObjects;
+﻿using ScreepsSharp.Core;
+using ScreepsSharp.Core.RoomObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace ScreepsSharp.Blazor.RoomObjects
 {
 	public class Controller : AStructure, IController
 	{
-		public Controller(string id) : base(id) { }
+		public Controller(string id, IJsInterop js) : base(id, js) { }
 	}
 }
