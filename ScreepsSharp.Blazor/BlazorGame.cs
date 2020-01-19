@@ -30,6 +30,11 @@ namespace ScreepsSharp.Blazor
 		{
 			js = BlazorJSRuntime.Current;
 			cpu = new Cpu(js);
+
+			//!!!!: gc cannot properly determine the amount of memory on the system due to the boxed environment 
+			// the user script runs in. As such various errors can occur due to the garbage collector not
+			// kicking in depending on the latency mode.
+			System.Runtime.GCSettings.LatencyMode = System.Runtime.GCLatencyMode.Batch;
 		}
 
 		private void Update()
