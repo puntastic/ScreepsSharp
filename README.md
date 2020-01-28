@@ -21,4 +21,4 @@
 That should with luck get everything working. Note that saving files within the screeps client seems to cause problems reloading the modules.
 
 1 ) Inbuilt windows zip handler didn't do it for me. I had to use 7zip on [max compression](https://superuser.com/questions/281573/what-are-the-best-options-to-use-when-compressing-files-using-7-zip).
- Note that screeps base64 encodes files being uploading making them larger; <5mb locally may still hit the server size limit.
+ Note that screeps base64 encodes files making uploading making them larger; <5mb locally may still hit the server size limit.
